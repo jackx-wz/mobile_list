@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="//<?=$host?>/public/css/bootstrap.min.css">
+<style>
+.nav-tabs li{
+    width:50%;
+    margin-bottom:5px;
+}
+.nav-tabs>li.active a, .nav-tabs>li.active a:hover, .nav-tabs>li.active a:focus{
+    background-color: #d1d1d1;
+}
+td.w40{
+    word-break:break-all;
+}
+td.time{
+    width:150px;
+}
+td.down{
+    width:20%;
+}
+</style>
+
+<!-- 可选的Bootstrap主题文件（一般不用引入） -->
+</head>
+<body class="devpreview sourcepreview">
+<?php if(isset($rst)){
+    if($rst == 'success'){
+        $msg = '上传成功';
+        $alert_cls = 'alert-success';
+    } else{
+        $msg = $rst;
+        $alert_cls = 'alert-danger';
+    }
+
+    printf('<div class="alert %s" role="alert">%s</div>', $alert_cls, $msg);
+ }
+?>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <form method="post" enctype="multipart/form-data">
+                <fieldset>
+                     <legend>上传文件包</legend> <label>选择文件</label><input type="file" name="file" /> <span class="help-block">只能上传 .ipa 或者 .apk 包.</span>  <button type="submit" class="btn btn-primary">提交</button><a class="btn btn-link" href="/" role="button">内测包下载页</a>
+                </fieldset>
+                <input type="hidden" name="submit" value="1">
+
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="//<?=$host?>/public/js/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="//<?=$host?>/public/js/bootstrap.min.js"></script>
+</body>
+</html>

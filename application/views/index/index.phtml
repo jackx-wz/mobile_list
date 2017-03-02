@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="//<?=$host?>/public/css/bootstrap.min.css">
+<style>
+.alert, .alert h4 {
+    color: #c09853;
+}
+.alert {
+    padding: 8px 35px 8px 14px;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    background-color: #fcf8e3;
+    border: 1px solid #fbeed5;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+.nav-tabs li{
+    width:50%;
+    margin-bottom:5px;
+}
+.nav-tabs>li.active a, .nav-tabs>li.active a:hover, .nav-tabs>li.active a:focus{
+    background-color: #d1d1d1;
+}
+td.w40{
+    word-break:break-all;
+}
+td.time{
+    width:150px;
+}
+td.down{
+    width:20%;
+}
+</style>
+
+<!-- 可选的Bootstrap主题文件（一般不用引入） -->
+</head>
+<body class="devpreview sourcepreview">
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="alert">
+                 <button type="button" class="close" data-dismiss="alert">×</button>
+                 <strong>提示!</strong> <a href="http://<?=$host.':'.$port?>/cer/myCA.cer">IOS请下载证书安装.</a>
+            </div>
+            <div class="tabbable" id="tabs-638761">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#panel-355562" data-toggle="tab">Andriod</a>
+                    </li>
+                    <li>
+                        <a href="#panel-613276" data-toggle="tab">IOS</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="panel-355562">
+                        <table class="table">
+                            <tbody>
+                        <?php
+                            $index = 0;
+                            foreach($andr as $pkg){
+                                $class = ($index++%2) ? 'success' : '';
+                                printf("<tr class='%s'><td class='w40'>%s</td><td class='time'>%s</td><td class='down'><a href='http://%s:%s/public/apps/%s' target='_blank'>下载</a></td></tr>", $class, $pkg['base_name'], $pkg['time'], $host, $port, $pkg['dir_name'].'/'.$pkg['base_name']);
+                            }
+                        ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="panel-613276">
+                        <table class="table">
+                            <tbody>
+                        <?php
+                            $index = 0;
+                            foreach($ios as $pkg){
+                                $class = ($index++%2) ? 'success' : '';
+                                printf("<tr class='%s'><td class='w40'>%s</td><td class='time'>%s</td><td class='down'><a href='itms-services://?action=download-manifest&url=https://%s/index/index/plist/file_name/%s' target='_blank'>下载</a></td></tr>", $class, $pkg['base_name'], $pkg['time'], $host, $pkg['file_name'].$seg.$pkg['dir_name']);
+                            }
+                        ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="//<?=$host?>/public/js/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="//<?=$host?>/public/js/bootstrap.min.js"></script>
+</body>
+</html>

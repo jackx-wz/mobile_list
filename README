@@ -1,0 +1,61 @@
+1、需要php扩展 ssl、 yaf
+2、需要配置nginx的 http https 都可以使用,参考:
+server {
+    listen       443 ssl;
+    server_name  172.18.1.108;
+    client_max_body_size 8000m;
+
+    include       mime.types;
+    root   /data/dtools;
+    index  index.php index.html index.htm;
+
+    ssl_certificate      /data/dtools/cer/server.cer;
+    ssl_certificate_key  /data/dtools/cer/server.key;
+
+    location ~ \.php($|/) {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_split_path_info ^(.+\.php)(.*)$;
+        fastcgi_keep_conn on;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        fastcgi_param  HTTPS on;
+        include        fastcgi_params;
+    }
+
+    if (!-e $request_filename) {
+        rewrite ^(.*)$ /index.php$1 last;
+    }
+}
+
+server {
+    listen       8080;
+    server_name  172.18.1.108;
+    client_max_body_size 8g;
+    client_body_temp_path /storage/tmp;
+
+    include       mime.types;
+    root   /data/dtools;
+    index  index.php index.html index.htm;
+
+    location ~ \.php($|/) {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_split_path_info ^(.+\.php)(.*)$;
+        fastcgi_keep_conn on;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include        fastcgi_params;
+    }
+
+    if (!-e $request_filename) {
+        rewrite ^(.*)$ /index.php$1 last;
+    }
+}
+
+3、nginx配置
+client_max_body_size 8000m;
+
+4、php.ini 中设置
+upload_max_filesize = 8000M
+post_max_size = 800M
+
+5、public/apps 目录需要写权限
